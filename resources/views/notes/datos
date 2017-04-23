@@ -1,0 +1,45 @@
+public function create()
+    {
+        $data=DB::table('categories')->select('name')->get();
+        return view('notes.create')->with('data',$data);
+    }
+
+    public function store(Request $request)
+    {	
+    	$this->validate(request(),[
+            'name']);
+        $data = request()->all();
+        Category::create($data);
+        return redirect('web/notes');
+	}
+
+
+<div class="form-group"> 
+  <label>CATEGORIAS</label>
+	 {!! Form::open(['method'=>'POST']) !!}
+		 <select class="form-control" name="categori_id"> 
+		 	@foreach($categoria as $categorias) 
+		 		<option value="{{$categorias->categori_id}}">{{$categorias->name}}</option> 
+		 	@endforeach 
+		 </select> 
+		
+     </div>
+            {!! Form::submit('Enviar',['class'=>'btn btn-primary']) !!}
+            {!! Form::close() !!}
+ </div>
+
+public function create()
+    {
+       
+        $categoria = Category::all(['id','name']); 
+        return view('notes.create', compact('categoria',$categoria));
+    }
+
+    public function store(Request $request)
+    {	
+    	$this->validate(request(),[
+            'name']);
+        $items = request()->all();
+        Category::create($items);
+        return redirect('web/notes');
+	}
